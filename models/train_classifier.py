@@ -12,6 +12,7 @@ nltk.download('stopwords')
 from nltk.corpus import stopwords
 from nltk.tokenize import word_tokenize
 from nltk.stem.porter import PorterStemmer
+from nltk.stem.wordnet import WordNetLemmatizer
 
 from sklearn.pipeline import Pipeline
 from sklearn.feature_extraction.text import CountVectorizer, TfidfTransformer
@@ -66,10 +67,11 @@ def tokenize(text):
     # Stem word tokens and remove stop words
     stemmer = PorterStemmer()
     stop_words = stopwords.words("english")
+    lemmatizer = nltk.WordNetLemmatizer()
+    lemmat = [lemmatizer.lemmatize(word) for word in tokens if word not in stop_words]
     
-    stemmed = [stemmer.stem(word) for word in tokens if word not in stop_words]
     
-    return stemmed
+    return lemmat
 
 # Define performance metric for use in grid search scoring object
 def performance_metric(y_true, y_pred):
